@@ -30,6 +30,7 @@ class PyMR(object):
         yield key, count
 
     def _do_mapper(self, files):
+#	print(os.listdir('.'), file=sys.stderr)	
         for line in fileinput.input(files):
             for key, value in self.mapper(line):
                 yield str(key), str(value)
@@ -69,19 +70,19 @@ class PyMR(object):
         parser_hstreaming.add_argument('INPUT', help='input folder/file in HDFS')
         parser_hstreaming.add_argument('OUTPUT', help='output path in HDFS')
         parser_hstreaming.add_argument('-j', '--hadoop-streaming-jar', metavar='PATH_TO_JAR',
-                            help='[HSTREAMING] hadoop streaming jar path. (default: %(default)s)',
+                            help='hadoop streaming jar path. (default: %(default)s)',
 default='/usr/lib/hadoop-mapreduce/hadoop-streaming.jar')
         parser_hstreaming.add_argument('-n',
-            '--num-reducer', metavar='N', type=int, help='[LMR/HSTREAMING]number of reducer. (default: %(default)s)', default=4)
+            '--num-reducer', metavar='N', type=int, help='number of reducer. (default: %(default)s)', default=4)
 
                                        
         parser_localmr.add_argument('INPUT', help='input folder/file. `-\' for stdin')
         parser_localmr.add_argument('OUTPUT', help='output path')
-        parser_localmr.add_argument('-c', '--lmr-cmd', metavar='LMR_CMD', help='[LMR] lmr command. (default: %(default)s)', default='lmr')
-        parser_localmr.add_argument('-s','--split-size', metavar='SIZE', help='[LMR] size of splits. (default: %(default)s)', default='1m')
+        parser_localmr.add_argument('-c', '--lmr-cmd', metavar='LMR_CMD', help='lmr command. (default: %(default)s)', default='lmr')
+        parser_localmr.add_argument('-s','--split-size', metavar='SIZE', help='size of splits. (default: %(default)s)', default='1m')
 
         parser_localmr.add_argument('-n',
-            '--num-reducer', metavar='N', type=int, help='[LMR/HSTREAMING]number of reducer. (default: %(default)s)', default=4)
+            '--num-reducer', metavar='N', type=int, help='number of reducer. (default: %(default)s)', default=4)
 
         parser_pipe.add_argument('FILE', nargs = '*', help='input files')
 
@@ -169,8 +170,10 @@ def _hstreaming(input, output, num_reducer, jar_path, files):
         yarn_command = 'hadoop'
 
     # files = ','.join(__file__, sys.argv[0])
-    subprocess.Popen([yarn_command, 'jar', jar_path, '-files', files, '-mapper',
-                      MAPPER, '-reducer', 'REDUCER', '-input', input, '-output', output])
+    print(files, file=sys.stderr)
+
+    subprocess.Popen([yarn_command, 'jar', jar_path, '-files', ','.join(files), '-mapper',
+                      MAPPER, '-reducer', REDUCER, '-input', input, '-output', output])
 
 
 # if __name__ == '__main__':
