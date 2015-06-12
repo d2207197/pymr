@@ -7,8 +7,11 @@ Support following running mode:
 - local mapreduce (depends on [localmapreduce](github.com/d2207197/localmapreduce))
 - hadoop streaming
 
-## Usage
+## Install
 
+~~~console
+$ pip install https://github.com/d2207197/pymr/archive/master.zip
+~~~
 
 
 ## Word Count Example
