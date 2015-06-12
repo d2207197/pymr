@@ -59,9 +59,10 @@ class PyMR(object):
     def _argparser(description):
         parser = argparse.ArgumentParser(description=description)
         subparsers = parser.add_subparsers(help='sub-commands', dest='cmd')
-        parser_hstreaming = subparsers.add_parser('hadoop', help='Hadoop Streaming mode')
-        parser_localmr = subparsers.add_parser('lmr', help='local mapreduce mode')
+        
         parser_pipe = subparsers.add_parser('pipe', help='pipeline mode')
+        parser_localmr = subparsers.add_parser('lmr', help='local mapreduce mode')
+        parser_hstreaming = subparsers.add_parser('hadoop', help='Hadoop Streaming mode')
         parser_map = subparsers.add_parser('map', help='mapper mode')
         parser_reducer = subparsers.add_parser('reduce', help='reducer mode')
         
@@ -74,10 +75,10 @@ default='/usr/lib/hadoop-mapreduce/hadoop-streaming.jar')
             '--num-reducer', metavar='N', type=int, help='[LMR/HSTREAMING]number of reducer. (default: %(default)s)', default=4)
 
                                        
-        parser_localmr.add_argument('INPUT', help='input folder/file HDFS. `-\' for stdin')
+        parser_localmr.add_argument('INPUT', help='input folder/file. `-\' for stdin')
         parser_localmr.add_argument('OUTPUT', help='output path')
         parser_localmr.add_argument('-c', '--lmr-cmd', metavar='LMR_CMD', help='[LMR] lmr command. (default: %(default)s)', default='lmr')
-        parser_localmr.add_argument('-s','--split-size', metavar='SIZE', help='[LMR] size of splits. (default: %(default)s)', default='10m')
+        parser_localmr.add_argument('-s','--split-size', metavar='SIZE', help='[LMR] size of splits. (default: %(default)s)', default='1m')
 
         parser_localmr.add_argument('-n',
             '--num-reducer', metavar='N', type=int, help='[LMR/HSTREAMING]number of reducer. (default: %(default)s)', default=4)
