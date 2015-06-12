@@ -38,7 +38,7 @@ if __name__ == '__main__':
 Five sub commands.
 
 ~~~console
-$./wordcount.py -h
+$ ./wordcount.py -h
 usage: wordcount.py [-h] {pipe,lmr,hadoop,map,reduce} ...
 
 Word Counter
