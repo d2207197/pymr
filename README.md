@@ -105,7 +105,7 @@ Copy the `lmr` program to any directory in PATH environment variable, like '/usr
 Read data from folder/file/stdin and store the results in OUTPUT folder. Before running it, make sure OUTPUT folder doesn't exist.
 
 ~~~console
-./wordcount.py lmr -h 
+$ ./wordcount.py lmr -h 
 usage: wordcount.py lmr [-h] [-c LMR_CMD] [-s SIZE] [-n N] INPUT OUTPUT
 
 positional arguments:
