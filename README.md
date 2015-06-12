@@ -178,15 +178,15 @@ running example
 ~~~console
 $ ./ngramcount.py hadoop input_data output_data
 packageJobJar: [] [/usr/lib/hadoop-mapreduce/hadoop-streaming-2.6.0-cdh5.4.2.jar] /tmp/streamjob5352956424634706112.jar tmpDir=null
-15/06/12 23:50:55 INFO client.RMProxy: Connecting to ResourceManager at lost.nlpweb.org/140.114.89.221:8032
-15/06/12 23:50:55 INFO client.RMProxy: Connecting to ResourceManager at lost.nlpweb.org/140.114.89.221:8032
+15/06/12 23:50:55 INFO client.RMProxy: Connecting to ResourceManager at */*:8032
+15/06/12 23:50:55 INFO client.RMProxy: Connecting to ResourceManager at */*:8032
 15/06/12 23:50:56 INFO lzo.GPLNativeCodeLoader: Loaded native gpl library
 15/06/12 23:50:56 INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library [hadoop-lzo rev 8e266e052e423af592871e2dfe09d54c03f6a0e8]
 15/06/12 23:50:56 INFO mapred.FileInputFormat: Total input paths to process : 1
 15/06/12 23:50:56 INFO mapreduce.JobSubmitter: number of splits:50
 15/06/12 23:50:56 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1433987940295_0060
 15/06/12 23:50:56 INFO impl.YarnClientImpl: Submitted application application_1433987940295_0060
-15/06/12 23:50:57 INFO mapreduce.Job: The url to track the job: http://lost.nlpweb.org:8088/proxy/application_1433987940295_0060/
+15/06/12 23:50:57 INFO mapreduce.Job: The url to track the job: http://*:8088/proxy/application_1433987940295_0060/
 15/06/12 23:50:57 INFO mapreduce.Job: Running job: job_1433987940295_0060
 15/06/12 23:51:03 INFO mapreduce.Job: Job job_1433987940295_0060 running in uber mode : false
 15/06/12 23:51:03 INFO mapreduce.Job:  map 0% reduce 0%
