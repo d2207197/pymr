@@ -31,7 +31,7 @@ class PyMR(object):
         yield key, count
 
     def _do_mapper(self, files):
-#	print(os.listdir('.'), file=sys.stderr)	
+        #	print(os.listdir('.'), file=sys.stderr)
         for line in fileinput.input(files):
             for key, value in self.mapper(line):
                 yield str(key), str(value)
@@ -72,7 +72,6 @@ class PyMR(object):
         parser_hstreaming.add_argument('INPUT',
                                        help='input folder/file in HDFS')
         parser_hstreaming.add_argument('OUTPUT', help='output path in HDFS')
-<<<<<<< HEAD
         parser_hstreaming.add_argument(
             '-j', '--hadoop-streaming-jar',
             metavar='PATH_TO_JAR',
@@ -111,22 +110,6 @@ class PyMR(object):
 
         parser_map.add_argument('FILE', nargs='*', help='input files')
         parser_reducer.add_argument('FILE', nargs='*', help='input files')
-=======
-        parser_hstreaming.add_argument('-j', '--hadoop-streaming-jar', metavar='PATH_TO_JAR',
-                            help='hadoop streaming jar path. (default: %(default)s)',
-default='/usr/lib/hadoop-mapreduce/hadoop-streaming.jar')
-        parser_hstreaming.add_argument('-n',
-            '--num-reducer', metavar='N', type=int, help='number of reducer. (default: %(default)s)', default=4)
-
-                                       
-        parser_localmr.add_argument('INPUT', help='input folder/file. `-\' for stdin')
-        parser_localmr.add_argument('OUTPUT', help='output path')
-        parser_localmr.add_argument('-c', '--lmr-cmd', metavar='LMR_CMD', help='lmr command. (default: %(default)s)', default='lmr')
-        parser_localmr.add_argument('-s','--split-size', metavar='SIZE', help='size of splits. (default: %(default)s)', default='1m')
-
-        parser_localmr.add_argument('-n',
-            '--num-reducer', metavar='N', type=int, help='number of reducer. (default: %(default)s)', default=4)
->>>>>>> b31e0d498495d60433aec1282b4bb4cd1cea5da3
 
         # parser.add_argument('--mapper-argument', help='argument for mapper') # TODO
         # parser.add_argument('--reducer-argument', help='argument for reducer') # TODO
