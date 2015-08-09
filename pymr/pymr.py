@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function, unicode_literals
+import locale
+import warnings
 import abc
 import fileinput
 import sys
@@ -11,7 +13,11 @@ import os
 from six.moves import map
 from itertools import groupby
 import six
-import pickle
+
+if six.PY2:
+    import codecs
+    UTF8Writer = codecs.getwriter('utf8')
+    sys.stdout = UTF8Writer(sys.stdout)
 
 MAPPER, REDUCER = (sys.executable, sys.argv[0], 'map'), (sys.executable,
                                                          sys.argv[0], 'reduce')
@@ -32,20 +38,28 @@ class PyMR(object):
 
     def _do_mapper(self, files):
         #	print(os.listdir('.'), file=sys.stderr)
-        for line in fileinput.input(files):
-            for key, value in self.mapper(line):
-                yield str(key), str(value)
 
-    # def _do_combiner(self, mapper_out):
-    #     mapper_out = sorted(mapper_out, key=lambda x: x[0])
-    #     for key, grouped_keyvalues in groupby(mapper_out,
-    #                                           key=lambda x: x[0]):
-    #         values = (v for k, v in grouped_keyvalues)
-    #         for key, value in self.combiner(key, values):
-    #             yield key, value
+        for line in fileinput.input(files):
+            if type(line) == six.binary_type:
+                line = line.decode('utf8')
+            for key, value in self.mapper(line):
+
+                if type(key) == six.binary_type:
+                    warnings.warn(
+                        'mapper(self, line) output key should not be <type \'str\'>. Automatically converting to <type \'unicode\'> by utf8')
+                    key = key.decode('utf8')
+                if type(value) == six.binary_type:
+                    warnings.warn(
+                        'mapper(self, line) output value should not be <type \'str\'>. Automatically converting to <type \'unicode\'> by utf8')
+                    value = value.decode('utf8')
+                yield six.text_type(key), six.text_type(value)
 
     def _do_reducer(self, files):
         def line_to_keyvalue(line):
+            if type(line) == six.binary_type:
+                line = line.decode('utf8')
+
+            # print(type(line), file=sys.stderr)
             # print(line, file = sys.stderr)
             key, value = line.split('\t', 1)
             return key, value
@@ -54,7 +68,16 @@ class PyMR(object):
         for key, grouped_keyvalues in groupby(keyvalues, key=lambda x: x[0]):
             values = (v for k, v in grouped_keyvalues)
             for key, value in self.reducer(key, values):
-                yield str(key), str(value)
+                if type(key) == six.binary_type:
+                    warnings.warn(
+                        'mapper(self, line) output key should not be <type \'str\'>. Automatically converting to <type \'unicode\'> by utf8')
+                    key = key.decode('utf8')
+                if type(value) == six.binary_type:
+                    warnings.warn(
+                        'mapper(self, line) output value should not be <type \'str\'>. Automatically converting to <type \'unicode\'> by utf8')
+                    value = value.decode('utf8')
+
+                yield six.text_type(key), six.text_type(value)
 
     @staticmethod
     def _argparser(description):
@@ -126,6 +149,9 @@ class PyMR(object):
             mapper_out = self._do_mapper(args.FILE)
             # mapper_out = do_combiner(mapper_out)
             for key, value in mapper_out:
+                # print(type('rchcrh'), type(key), type(value), sys.executable,
+                # file=sys.stderr)
+                # print(locale.getpreferredencoding(), file=sys.stderr)
                 print('{}\t{}'.format(key, value))
 
         elif args.cmd == 'reduce':
