@@ -17,6 +17,7 @@ $ pip install https://github.com/d2207197/pymr/archive/master.zip
 ## Word Count Example
 
 ~~~py
+#!/usr/bin/env python
 from pymr import PyMR
 
 class WordCount(PyMR):
